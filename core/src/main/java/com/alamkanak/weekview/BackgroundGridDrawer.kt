@@ -15,6 +15,7 @@ internal class BackgroundGridDrawer(
         drawingContext: DrawingContext,
         canvas: Canvas
     ) {
+        canvas.drawARGB(255, 252, 244, 242)
         drawingContext.startPixels.forEach { startPixel ->
             val startX = max(startPixel, config.timeColumnWidth)
             drawGrid(startX, startPixel, canvas)

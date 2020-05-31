@@ -16,6 +16,7 @@ internal class WeekViewTouchHandler<T : Any>(
     var onEmptyViewLongClickListener: OnEmptyViewLongClickListener? = null
 
     fun handleClick(x: Float, y: Float) {
+
         val handled = onEventClickListener?.handleClick(x, y) ?: false
         if (!handled) {
             onEmptyViewClickListener?.handleClick(x, y)
@@ -94,8 +95,6 @@ internal class WeekViewTouchHandler<T : Any>(
         val isInHeader = y <= config.headerHeight
 
         if (eventChip.event.isNotAllDay && isInHeader) {
-            // The user tapped in the header area and a single event that is rendered below it
-            // has recognized the tap. We ignore this.
             return false
         }
 
@@ -107,10 +106,15 @@ internal class WeekViewTouchHandler<T : Any>(
     }
 
     private fun OnEmptyViewClickListener.handleClick(x: Float, y: Float) {
-        val isInCalendarArea = x > config.timeColumnWidth && y > config.headerHeight
+        val isInCalendarArea = x > config.timeColumnWidth
         if (isInCalendarArea) {
             calculateTimeFromPoint(x, y)?.let { time ->
-                onEmptyViewClicked(time)
+                if (y < config.headerHeight){
+                    onHeaderViewClicked(time) // Handle click on day header
+                } else {
+                    onEmptyViewClicked(time)
+                }
+
             }
         }
     }

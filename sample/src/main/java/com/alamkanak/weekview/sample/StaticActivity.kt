@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_static.previousWeekButton
 import kotlinx.android.synthetic.main.view_toolbar.toolbar
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.Calendar
+import java.util.*
 
 class StaticActivity : AppCompatActivity(), OnEventClickListener<Event>,
     OnMonthChangeListener<Event>, OnEventLongClickListener<Event>, OnEmptyViewLongClickListener {
@@ -29,7 +29,9 @@ class StaticActivity : AppCompatActivity(), OnEventClickListener<Event>,
     private val weekView: WeekView<Event> by lazyView(R.id.weekView)
 
     private val database: EventsDatabase by lazy { EventsDatabase(this) }
-    private val dateFormatter = SimpleDateFormat.getDateInstance(DateFormat.MEDIUM)
+
+    private val weekdayFormatter = SimpleDateFormat("E", Locale.getDefault())
+    private val dateFormatter = SimpleDateFormat("dd", Locale.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +43,15 @@ class StaticActivity : AppCompatActivity(), OnEventClickListener<Event>,
         weekView.onMonthChangeListener = this
         weekView.onEventLongClickListener = this
         weekView.onEmptyViewLongClickListener = this
+        weekView.setOnCustomEmptyViewClickListener ( {dateTime: Calendar ->
+            showToast("Empty view clicked at ${dateTime.time}")}, {/*NOP*/ }
+        )
+
+        weekView.setDateFormatter { date ->
+            val weekdayLabel = weekdayFormatter.format(date.time)
+            val dateLabel = dateFormatter.format(date.time)
+            weekdayLabel + "\n" + dateLabel
+        }
 
         previousWeekButton.setOnClickListener {
             val cal = weekView.firstVisibleDate

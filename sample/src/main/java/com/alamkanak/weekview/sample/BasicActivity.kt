@@ -20,7 +20,7 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
 import java.text.SimpleDateFormat
-import java.util.Locale
+import java.util.*
 
 private class ViewModel(
     private val database: EventsDatabase
@@ -34,10 +34,10 @@ private class ViewModel(
 
 class BasicActivity : AppCompatActivity() {
 
-    private val weekdayFormatter = SimpleDateFormat("EEE", Locale.getDefault())
-    private val dateFormatter = SimpleDateFormat("MM/dd", Locale.getDefault())
-
     private val weekView: WeekView<Event> by lazyView(R.id.weekView)
+
+    private val weekdayFormatter = SimpleDateFormat("E", Locale.getDefault())
+    private val dateFormatter = SimpleDateFormat("dd", Locale.getDefault())
 
     private val viewModel: ViewModel by lazy {
         ViewModel(EventsDatabase(this))
@@ -53,12 +53,6 @@ class BasicActivity : AppCompatActivity() {
             weekView.submit(events)
         }
 
-        weekView.setDateFormatter { date ->
-            val weekdayLabel = weekdayFormatter.format(date.time)
-            val dateLabel = dateFormatter.format(date.time)
-            weekdayLabel + "\n" + dateLabel
-        }
-
         weekView.setOnLoadMoreListener { startDate: LocalDate, endDate: LocalDate ->
             viewModel.fetchEvents(startDate, endDate)
         }
@@ -71,9 +65,14 @@ class BasicActivity : AppCompatActivity() {
             showToast("Long-clicked ${event.title}")
         }
 
-        weekView.setOnEmptyViewClickListener { dateTime: LocalDateTime ->
-            val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)
-            showToast("Empty view clicked at ${formatter.format(dateTime)}")
+        weekView.setOnCustomEmptyViewClickListener ( {dateTime: Calendar ->
+            showToast("Empty view clicked at ${dateTime.time}")}, {/*NOP*/ }
+        )
+
+        weekView.setDateFormatter { date ->
+            val weekdayLabel = weekdayFormatter.format(date.time)
+            val dateLabel = dateFormatter.format(date.time)
+            weekdayLabel + "\n" + dateLabel
         }
     }
 }

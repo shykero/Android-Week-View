@@ -33,12 +33,12 @@
         app:showNowLineDot="true"
         app:showTimeColumnSeparator="true"
         app:singleDayHorizontalMargin="8dp"
-        app:timeColumnBackgroundColor="#ffffffff"
+        app:timeColumnBackgroundColor="@color/lightpink"
         app:timeColumnPadding="8dp"
         app:timeColumnSeparatorColor="@color/header_bottom_line"
         app:timeColumnSeparatorStrokeWidth="1dp"
         app:timeColumnTextColor="@color/toolbar_text"
         app:timeColumnTextSize="12sp"
-        app:todayHeaderTextColor="@color/accent" />
+        app:todayHeaderTextColor="@color/event_color_02" />
 
 </LinearLayout>

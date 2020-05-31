@@ -47,6 +47,20 @@ internal class WeekViewConfigWrapper(
             typeface = Typeface.create(config.typeface, Typeface.BOLD)
         }
 
+    val headerDayTextPaint: TextPaint
+        get() = _headerTextPaint.apply {
+            color = config.headerRowTextColor
+            textSize = config.headerRowTextSize.toFloat()
+            typeface = Typeface.create(config.typeface, Typeface.BOLD)
+        }
+
+    val headerDayNumberTextPaint: TextPaint
+        get() = _headerTextPaint.apply {
+            color = config.headerRowTextColor
+            textSize = config.headerDayNumberTextSize.toFloat()
+            typeface = Typeface.create(config.typeface, Typeface.BOLD)
+        }
+
     private val _headerRowBottomLinePaint: Paint = Paint()
 
     val headerRowBottomLinePaint: Paint
@@ -78,6 +92,8 @@ internal class WeekViewConfigWrapper(
     var headerBackgroundPaint: Paint = Paint().apply {
         color = config.headerRowBackgroundColor
     }
+
+    var selectedDay: Int? = null
 
     var widthPerDay: Float = 0f
 

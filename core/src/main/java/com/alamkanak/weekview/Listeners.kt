@@ -36,6 +36,13 @@ interface OnEmptyViewClickListener {
      * @param time A [Calendar] with the date and time of the clicked position
      */
     fun onEmptyViewClicked(time: Calendar)
+
+    /**
+     * Called when header row area of [WeekView] is clicked.
+     *
+     * @param time A [Calendar] with the date and time of the clicked position
+     */
+    fun onHeaderViewClicked(time: Calendar)
 }
 
 @FunctionalInterface

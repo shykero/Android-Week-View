@@ -10,6 +10,7 @@ internal class WeekViewViewState(
 
     var scrollToDate: Calendar? = null
     var scrollToHour: Int? = null
+    var selectedDay: Int? = null
 
     private var isFirstDraw = true
     var areDimensionsInvalid = true
@@ -52,5 +53,6 @@ internal class WeekViewViewState(
     internal interface Listener {
         fun goToDate(date: Calendar)
         fun goToHour(hour: Int)
+        fun updateSelectedDay(selectedDay: Int)
     }
 }

@@ -15,7 +15,7 @@ internal object Defaults {
     val GRID_COLOR = Color.rgb(102, 102, 102)
     const val NOW_COLOR = Color.BLACK
     val SEPARATOR_COLOR = Color.rgb(230, 230, 230)
-    val HIGHLIGHT_COLOR = Color.rgb(39, 137, 228)
+    val HIGHLIGHT_COLOR = Color.rgb(255,182,193)
 
     fun textSize(context: Context): Int = convertTextDimension(context, 12)
 

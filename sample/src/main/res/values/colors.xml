@@ -2,6 +2,7 @@
 <resources>
     <color name="event_color_01">#59dbe0</color>
     <color name="event_color_02">#f57f68</color>
+    <color name="lightpink">#fcf4f2</color>
     <color name="event_color_03">#87d288</color>
     <color name="event_color_04">#f8b552</color>
     <color name="toolbar">#efefef</color>
@@ -10,5 +11,5 @@
     <color name="accent">#2789e4</color>
     <color name="divider">#E2E2E2</color>
     <color name="dark_gray">#aeaeae</color>
-    <color name="light_gray">#CCCCCC</color>
+    <color name="light_gray">#fcf4f2</color>
 </resources>

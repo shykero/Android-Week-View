@@ -1,8 +1,12 @@
 package com.alamkanak.weekview
 
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.Spanned
 import android.text.StaticLayout
+import android.text.style.RelativeSizeSpan
 import android.util.SparseArray
-import java.util.Calendar
+import java.util.*
 
 internal class HeaderRowUpdater<T>(
     private val config: WeekViewConfigWrapper,
@@ -52,7 +56,7 @@ internal class HeaderRowUpdater<T>(
         dateLabels: List<StaticLayout>
     ) {
         val maximumLayoutHeight = dateLabels.map { it.height.toFloat() }.max() ?: 0f
-        config.headerTextHeight = maximumLayoutHeight
+        config.headerTextHeight = maximumLayoutHeight+50
         drawingContext.refreshHeaderHeight()
     }
 
@@ -64,10 +68,38 @@ internal class HeaderRowUpdater<T>(
 
     private fun calculateStaticLayoutForDate(date: Calendar): StaticLayout {
         val dayLabel = config.dateFormatter(date)
-        return dayLabel.toTextLayout(
-            textPaint = if (date.isToday) config.todayHeaderTextPaint else config.headerTextPaint,
-            width = config.totalDayWidth.toInt()
-        )
+        if (dayLabel.indexOf('\n') != -1){
+            val dayFirstLetter = dayLabel.indexOf('\n')
+            val firstChar = dayLabel[0]
+            val result = dayLabel.replaceRange(0, dayFirstLetter, firstChar.toString().toUpperCase())
+
+            val spannable = SpannableString(result)
+            spannable.setSpan(
+                    RelativeSizeSpan(1.5f),
+                    spannable.length-2, spannable.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+
+            if (date.isToday){
+                spannable.setSpan(TodayBackgroundSpan(), spannable.length-2, spannable.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            } else {
+                if (config.selectedDay != null && date.toEpochDays() == config.selectedDay){
+                    spannable.setSpan(RoundedBackgroundSpan(), spannable.length-2, spannable.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                } else {
+                    spannable.setSpan(NotSelectedBackgroundSpan(), spannable.length-2, spannable.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+            }
+            return spannable.toCustomTextLayout(
+                    textPaint = if (date.isToday) config.todayHeaderTextPaint else config.todayHeaderTextPaint,
+                    width = config.totalDayWidth.toInt()
+            )
+
+        } else {
+            return dayLabel.toCustomTextLayout(
+                    textPaint = if (date.isToday) config.todayHeaderTextPaint else config.todayHeaderTextPaint,
+                    width = config.totalDayWidth.toInt()
+            )
+        }
     }
 
     private operator fun <E> SparseArray<E>.plusAssign(elements: Map<Int, E>) {

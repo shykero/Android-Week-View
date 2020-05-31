@@ -62,11 +62,15 @@ fun <T : Any> WeekView<T>.setScrollListener(block: (date: LocalDate) -> Unit) {
 }
 
 fun <T : Any> WeekView<T>.setOnEmptyViewClickListener(
-    block: (time: LocalDateTime) -> Unit
+    block: (time: LocalDateTime) -> Unit, headerBlock: (time: LocalDateTime) -> Unit
 ) {
     onEmptyViewClickListener = object : OnEmptyViewClickListener {
         override fun onEmptyViewClicked(time: Calendar) {
             block(time.toLocalDateTime())
+        }
+
+        override fun onHeaderViewClicked(time: Calendar) {
+            headerBlock(time.toLocalDateTime())
         }
     }
 }

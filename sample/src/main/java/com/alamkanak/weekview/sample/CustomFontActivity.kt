@@ -8,9 +8,9 @@ import com.alamkanak.weekview.sample.data.model.Event
 import com.alamkanak.weekview.sample.util.lazyView
 import com.alamkanak.weekview.sample.util.setupWithWeekView
 import com.alamkanak.weekview.sample.util.showToast
-import kotlinx.android.synthetic.main.view_toolbar.toolbar
+import kotlinx.android.synthetic.main.view_toolbar.*
 import java.text.SimpleDateFormat
-import java.util.Calendar
+import java.util.*
 
 class CustomFontActivity : AppCompatActivity() {
 
@@ -46,4 +46,5 @@ class CustomFontActivity : AppCompatActivity() {
         val sdf = SimpleDateFormat.getDateTimeInstance()
         showToast("Empty view long-clicked at ${sdf.format(time.time)}")
     }
+
 }

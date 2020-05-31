@@ -11,7 +11,11 @@ import com.alamkanak.weekview.sample.data.model.ApiEvent
 import com.alamkanak.weekview.sample.util.lazyView
 import com.alamkanak.weekview.sample.util.setupWithWeekView
 import com.alamkanak.weekview.sample.util.showToast
+import com.alamkanak.weekview.threetenabp.setOnEmptyViewClickListener
 import kotlinx.android.synthetic.main.view_toolbar.toolbar
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.FormatStyle
 import java.text.SimpleDateFormat
 
 private data class AsyncViewState(
@@ -80,9 +84,13 @@ class AsyncActivity : AppCompatActivity() {
             showToast("Long-clicked ${event.title}")
         }
 
-        weekView.setOnEmptyViewLongClickListener { time ->
-            val sdf = SimpleDateFormat.getDateTimeInstance()
-            showToast("Empty view long-clicked at ${sdf.format(time.time)}")
+        weekView.setOnEmptyViewClickListener ( {dateTime: LocalDateTime ->
+            val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)
+            showToast("Empty view clicked at ${formatter.format(dateTime)}")}, {
+            dateTime: LocalDateTime ->
+            val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)
+            showToast("Header view clicked at ${formatter.format(dateTime)}")
         }
+        )
     }
 }

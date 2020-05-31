@@ -16,7 +16,7 @@ import com.alamkanak.weekview.sample.util.setupWithWeekView
 import com.alamkanak.weekview.sample.util.showToast
 import kotlinx.android.synthetic.main.view_toolbar.toolbar
 import java.text.SimpleDateFormat
-import java.util.Calendar
+import java.util.*
 import java.util.Calendar.DAY_OF_MONTH
 
 class LimitedActivity : AppCompatActivity(), OnEventClickListener<Event>,
@@ -24,6 +24,9 @@ class LimitedActivity : AppCompatActivity(), OnEventClickListener<Event>,
 
     private val weekView: WeekView<Event> by lazyView(R.id.weekView)
     private val database: EventsDatabase by lazy { EventsDatabase(this) }
+
+    private val weekdayFormatter = SimpleDateFormat("E", Locale.getDefault())
+    private val dateFormatter = SimpleDateFormat("dd", Locale.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +38,15 @@ class LimitedActivity : AppCompatActivity(), OnEventClickListener<Event>,
         weekView.onMonthChangeListener = this
         weekView.onEventLongClickListener = this
         weekView.onEmptyViewLongClickListener = this
+        weekView.setOnCustomEmptyViewClickListener ( {dateTime: Calendar ->
+            showToast("Empty view clicked at ${dateTime.time}")}, {/*NOP*/ }
+        )
+
+        weekView.setDateFormatter { date ->
+            val weekdayLabel = weekdayFormatter.format(date.time)
+            val dateLabel = dateFormatter.format(date.time)
+            weekdayLabel + "\n" + dateLabel
+        }
 
         setupDateRange()
     }

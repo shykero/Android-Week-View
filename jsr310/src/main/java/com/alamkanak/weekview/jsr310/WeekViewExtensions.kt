@@ -71,6 +71,10 @@ fun <T : Any> WeekView<T>.setOnEmptyViewClickListener(
         override fun onEmptyViewClicked(time: Calendar) {
             block(time.toLocalDateTime())
         }
+
+        override fun onHeaderViewClicked(time: Calendar) {
+            block(time.toLocalDateTime())
+        }
     }
 }
 

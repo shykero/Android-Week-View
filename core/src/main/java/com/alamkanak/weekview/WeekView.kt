@@ -3,15 +3,18 @@ package com.alamkanak.weekview
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.RectF
 import android.graphics.Typeface
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.accessibility.AccessibilityManager
 import androidx.core.view.ViewCompat
 import com.alamkanak.weekview.Constants.UNINITIALIZED
+import java.time.LocalDateTime
 import java.util.Calendar
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -1189,6 +1192,11 @@ class WeekView<T : Any> @JvmOverloads constructor(
         invalidate()
     }
 
+    override fun updateSelectedDay(selectedDay: Int) {
+        configWrapper.selectedDay = selectedDay
+        invalidate()
+    }
+
     /**
      * Scrolls to a specific hour.
      *
@@ -1223,6 +1231,8 @@ class WeekView<T : Any> @JvmOverloads constructor(
         configWrapper.currentOrigin.y = finalOffset * (-1)
         invalidate()
     }
+
+
 
     /**
      * Returns the first hour that is visible on the screen.
@@ -1271,6 +1281,7 @@ class WeekView<T : Any> @JvmOverloads constructor(
     ) {
         onEventClickListener = object : OnEventClickListener<T> {
             override fun onEventClick(data: T, eventRect: RectF) {
+                Log.e("TAG", "onEventClick")
                 block(data, eventRect)
             }
         }
@@ -1360,12 +1371,18 @@ class WeekView<T : Any> @JvmOverloads constructor(
         }
 
     @PublicApi
-    fun setOnEmptyViewClickListener(
-        block: (time: Calendar) -> Unit
+    fun setOnCustomEmptyViewClickListener(
+        block: (time: Calendar) -> Unit, headerBlock: (time: Calendar) -> Unit
     ) {
         onEmptyViewClickListener = object : OnEmptyViewClickListener {
             override fun onEmptyViewClicked(time: Calendar) {
                 block(time)
+            }
+
+            override fun onHeaderViewClicked(time: Calendar) {
+                configWrapper.selectedDay = time.toEpochDays()
+                invalidate()
+                headerBlock(time)
             }
         }
     }

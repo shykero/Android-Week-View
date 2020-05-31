@@ -46,6 +46,8 @@ internal class WeekViewConfig(
     var headerRowTextColor: Int = 0
     var headerRowBackgroundColor: Int = 0
     var headerRowTextSize: Int = 0
+    var headerDayNumberTextSize: Int = 0
+    var headerDayLabelTextSize: Int = 0
     var headerRowPadding: Int = 0
     var todayHeaderTextColor: Int = 0
     var singleLineHeader: Boolean = false
@@ -155,7 +157,7 @@ internal class WeekViewConfig(
 
             // Time column
             timeColumnTextColor = getColor(R.styleable.WeekView_timeColumnTextColor, Color.BLACK)
-            timeColumnBackgroundColor = getColor(R.styleable.WeekView_timeColumnBackgroundColor, Color.WHITE)
+            timeColumnBackgroundColor = getColor(R.styleable.WeekView_timeColumnBackgroundColor, Color.argb(255, 252, 244, 242))
             timeColumnPadding = getDimensionPixelSize(R.styleable.WeekView_timeColumnPadding, 10)
             timeColumnTextSize = getDimensionPixelSize(R.styleable.WeekView_timeColumnTextSize, Defaults.textSize(context))
             showMidnightHour = getBoolean(R.styleable.WeekView_showMidnightHour, false)
@@ -173,8 +175,10 @@ internal class WeekViewConfig(
 
             // Header row
             headerRowTextColor = getColor(R.styleable.WeekView_headerRowTextColor, Color.BLACK)
-            headerRowBackgroundColor = getColor(R.styleable.WeekView_headerRowBackgroundColor, Color.WHITE)
+            headerRowBackgroundColor = getColor(R.styleable.WeekView_headerRowBackgroundColor, Color.argb(255, 252, 244, 242))
             headerRowTextSize = getDimensionPixelSize(R.styleable.WeekView_headerRowTextSize, Defaults.textSize(context))
+            headerDayLabelTextSize = getDimensionPixelSize(R.styleable.WeekView_headerRowTextSize, Defaults.textSize(context))
+            headerDayNumberTextSize = getDimensionPixelSize(R.styleable.WeekView_headerRowTextSize, Defaults.textSize(context))
             headerRowPadding = getDimensionPixelSize(R.styleable.WeekView_headerRowPadding, 10)
             todayHeaderTextColor = getColor(R.styleable.WeekView_todayHeaderTextColor, Defaults.HIGHLIGHT_COLOR)
 
